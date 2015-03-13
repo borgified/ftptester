@@ -1,0 +1,6 @@
+#!/bin/bash
+
+USERNAME=`cat /secret/ftptester.config | cut -f1 -d:`
+SITE=`cat /secret/ftptester.config | cut -f2 -d:`
+
+/usr/bin/script -qc "sftp ${USERNAME}@${SITE} < sftp_commands" output.log

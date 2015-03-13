@@ -1,0 +1,11 @@
+#!/usr/bin/expect
+
+set f [open "/secret/ftp_password" r]
+set password [read $f]
+
+spawn ./save_output
+expect "password"
+send -- "$password"
+interact
+
+close $f

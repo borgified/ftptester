@@ -1,0 +1,4 @@
+cd ftptests
+put d.random
+get d.random
+quit
