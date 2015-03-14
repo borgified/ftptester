@@ -17,3 +17,16 @@ runs `script` to save the stdout of the sftp command into `output.log`
 
 actual sftp commands to issue in order to upload / download something
 in order to generate some output
+
+
+
+###notes
+generate random files to upload/download with
+`dd if=/dev/urandom of=a.random bs=1M count=50`
+to get a 50MB file
+
+
+###additional reading
+http://stackoverflow.com/questions/8849240/why-when-i-transfer-a-file-through-sftp-it-takes-longer-than-ftp
+http://www.psc.edu/index.php/hpn-ssh
+https://spoutcraft.org/threads/blazing-fast-sftp-ssh-transfer.7682/
