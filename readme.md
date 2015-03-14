@@ -25,6 +25,9 @@ generate random files to upload/download with
 `dd if=/dev/urandom of=a.random bs=1M count=50`
 to get a 50MB file
 
+###todo
+* extract data from `output.log` and graph using (google charts)[https://google-developers.appspot.com/chart/]
+* turn this into a cgi program
 
 ###additional reading
 http://stackoverflow.com/questions/8849240/why-when-i-transfer-a-file-through-sftp-it-takes-longer-than-ftp
