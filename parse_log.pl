@@ -9,6 +9,8 @@ open(my $fh,'<',$filename) or die "couldn't open $filename $!";
 my $count=0;
 
 my $gather_data=0;
+my %upload;
+my %download;
 
 while(defined(my $row = <$fh>)){
 	chomp $row;
@@ -17,7 +19,6 @@ while(defined(my $row = <$fh>)){
 
 	if($gather_data){
 		#print $row;
-		$gather_data=0;
 
 		my @data = split (/\n/,$row);
 		foreach my $line (@data){
@@ -49,16 +50,44 @@ while(defined(my $row = <$fh>)){
 				#we'll just skip these values as well so our results arent skewed
 				
 				if($curr_speed > (2*$avg_speed)){
-					next;
+#					next;
 				}
 
-				print "$percent_done $avg_speed $curr_speed\n";
+#				print "$percent_done $avg_speed $curr_speed\n";
+				if($gather_data == 1){
+					my $a = [];
+					push(@$a,$avg_speed);
+					push(@$a,$curr_speed);
+					$upload{$percent_done} = $a;
+
+				}elsif($gather_data==2){
+					my $a = [];
+					push(@$a,$avg_speed);
+					push(@$a,$curr_speed);
+					$download{$percent_done} = $a;
+				}
+
 			}
 		}	
+		$gather_data=0;
+
 	}
 
-	if($row =~ /(Fetching|Uploading) .* to .*/){
+	if($row =~ /Uploading .* to .*/){
 		$gather_data=1;
 	}
+	if($row =~ /Fetching .* to .*/){
+		$gather_data=2;
+	}
 
-}	
+}
+
+print "upload data\n";
+foreach my $k (sort {$a<=>$b} keys %upload){
+	print "$k @{$upload{$k}}\n";
+}
+
+print "download data\n";
+foreach my $k (sort {$a<=>$b} keys %download){
+	print "$k @{$download{$k}}\n";
+}
