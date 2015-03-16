@@ -3,5 +3,6 @@
 USERNAME=`cat /secret/ftptester.config | cut -f1 -d:`
 SITE=`cat /secret/ftptester.config | cut -f2 -d:`
 
-/bin/dd if=/dev/urandom of=d.random bs=1M count=20
+/bin/dd if=/dev/urandom of=d.random bs=1M count=100
+
 /usr/bin/script -qc "sftp ${USERNAME}@${SITE} < sftp_commands" output.log

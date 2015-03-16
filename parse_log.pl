@@ -50,7 +50,7 @@ while(defined(my $row = <$fh>)){
 				#we'll just skip these values so our results arent skewed
 
 				if($curr_speed >= 8000){
-					next;
+#					next;
 				}
 
 #				print "$percent_done $avg_speed $curr_speed\n";
@@ -130,12 +130,12 @@ google.setOnLoadCallback(drawChart);
 
 function drawChart() {
 var data = google.visualization.arrayToDataTable([
-['% amount of data transferred', 'current speed'],
+['% amount of data transferred', 'current speed (KB/s)'],
 $upload_data
 ]);
 
 var options = {
-title: 'Upload FTP Performance (RWC upload to FTP)',
+title: 'Upload FTP Performance (RWC upload to ftp.pervasive.com)',
 legend: { position: 'bottom' }
 };
 
@@ -159,12 +159,12 @@ google.setOnLoadCallback(drawChart);
 
 function drawChart() {
 var data = google.visualization.arrayToDataTable([
-['% amount of data transferred', 'current speed'],
+['% amount of data transferred', 'current speed (KB/s)'],
 $download_data
 ]);
 
 var options = {
-title: 'Download FTP Performance (RWC download from FTP)',
+title: 'Download FTP Performance (RWC download from ftp.pervasive.com)',
 legend: { position: 'bottom' }
 };
 
