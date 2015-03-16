@@ -45,12 +45,12 @@ while(defined(my $row = <$fh>)){
 					$avg_speed =~ s/MB\/s//;
 					$avg_speed *= 1000;
 				}
-				
+
 				#sometimes current speed is crazy high towards the end of the upload/download
-				#we'll just skip these values as well so our results arent skewed
-				
-				if($curr_speed > (2*$avg_speed)){
-#					next;
+				#we'll just skip these values so our results arent skewed
+
+				if($curr_speed >= 8000){
+					next;
 				}
 
 #				print "$percent_done $avg_speed $curr_speed\n";
@@ -82,12 +82,114 @@ while(defined(my $row = <$fh>)){
 
 }
 
-print "upload data\n";
+
+
+my $upload_data;
+my $download_data;
+
+#verify that data got stored correctly
+#print "upload data\n";
 foreach my $k (sort {$a<=>$b} keys %upload){
-	print "$k @{$upload{$k}}\n";
+#	print "$k @{$upload{$k}}\n";
+#	$upload_data=$upload_data."[$k,${$upload{$k}}[0],${$upload{$k}}[1]],";
+#	prev line includes avg speed data, line below doesnt
+	$upload_data=$upload_data."[$k,${$upload{$k}}[1]],";
+}
+#
+#print "download data\n";
+foreach my $k (sort {$a<=>$b} keys %download){
+#	$download_data=$download_data."[$k,${$download{$k}}[0],${$download{$k}}[1]],";
+#	prev line includes avg speed data, line below doesnt
+	$download_data=$download_data."[$k,${$download{$k}}[1]],";
 }
 
-print "download data\n";
-foreach my $k (sort {$a<=>$b} keys %download){
-	print "$k @{$download{$k}}\n";
+
+#['2004',  1000,      400],
+#['2005',  1170,      460],
+#['2006',  660,       1120],
+#['2007',  1030,      540]
+
+
+
+#output google line chart html
+
+my $html = << "EOHTML";
+<html>
+<head>
+<script type="text/javascript"
+src="https://www.google.com/jsapi?autoload={
+'modules':[{
+'name':'visualization',
+'version':'1',
+'packages':['corechart']
+}]
+}"></script>
+
+<script type="text/javascript">
+google.setOnLoadCallback(drawChart);
+
+function drawChart() {
+var data = google.visualization.arrayToDataTable([
+['% amount of data transferred', 'current speed'],
+$upload_data
+]);
+
+var options = {
+title: 'Upload FTP Performance (RWC upload to FTP)',
+legend: { position: 'bottom' }
+};
+
+var chart = new google.visualization.LineChart(document.getElementById('curve_chart1'));
+
+chart.draw(data, options);
 }
+</script>
+
+<script type="text/javascript"
+src="https://www.google.com/jsapi?autoload={
+'modules':[{
+'name':'visualization',
+'version':'1',
+'packages':['corechart']
+}]
+}"></script>
+
+<script type="text/javascript">
+google.setOnLoadCallback(drawChart);
+
+function drawChart() {
+var data = google.visualization.arrayToDataTable([
+['% amount of data transferred', 'current speed'],
+$download_data
+]);
+
+var options = {
+title: 'Download FTP Performance (RWC download from FTP)',
+legend: { position: 'bottom' }
+};
+
+var chart = new google.visualization.LineChart(document.getElementById('curve_chart2'));
+
+chart.draw(data, options);
+}
+</script>
+
+
+</head>
+<body>
+<div id="curve_chart1" style="width: 900px; height: 500px"></div>
+<div id="curve_chart2" style="width: 900px; height: 500px"></div>
+</body>
+</html>
+
+EOHTML
+
+print $html;
+
+
+
+
+
+
+
+
