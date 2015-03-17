@@ -3,6 +3,9 @@
 ###usage
 ```
 ./run_ftptest
+(generates output.log)
+./parse_log.pl > a.html
+(generates a.html to open in browser)
 ```
 this is an expect script that calls the `save_output` bash script
 all expect does is to interactively provide the sftp password when prompted
