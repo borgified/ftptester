@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-my $filename = 'output.log';
+my $filename = '/home/jctong/scripts/ftptester/output.log';
 open(my $fh,'<',$filename) or die "couldn't open $filename $!";
 
 my $count=0;
