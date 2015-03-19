@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-my $filename = '/home/jctong/scripts/ftptester/output.log';
+my $filename = 'output.log';
 open(my $fh,'<',$filename) or die "couldn't open $filename $!";
 
 my $count=0;
@@ -46,12 +46,6 @@ while(defined(my $row = <$fh>)){
 					$avg_speed *= 1000;
 				}
 
-				#sometimes current speed is crazy high towards the end of the upload/download
-				#we'll just skip these values so our results arent skewed
-
-				if($curr_speed >= 8000){
-#					next;
-				}
 
 #				print "$percent_done $avg_speed $curr_speed\n";
 				if($gather_data == 1){

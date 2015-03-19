@@ -27,8 +27,8 @@ src="https://www.google.com/jsapi?autoload={
 }"></script>
 HTMLJUNK
 
-	&run_ftptest($config{'ftp'});
-	&parse_log($config{'ftp'});
+	&run_ftptest($config{'ftp2'});
+	&parse_log($config{'ftp2'});
 
 }
 
@@ -39,7 +39,7 @@ sub run_ftptest {
 
 	my $ftp = shift;
 
-	if(system("/bin/dd if=/dev/urandom of=a.random bs=1M count=50 2>/dev/null") != 0){
+	if(system("/bin/dd if=/dev/urandom of=b.random bs=1M count=50 2>/dev/null") != 0){
 		die $!;
 	}
 
@@ -47,8 +47,8 @@ sub run_ftptest {
 	$exp->log_stdout(0);
 #$exp->raw_pty(1);
 	$exp->spawn("/usr/bin/sftp $config{'username'}\@$ftp");
-	unlink("output.log");
-	$exp->log_file("output.log");
+	unlink("output.log2");
+	$exp->log_file("output.log2");
 
 	$exp->expect(10,
 		[ qr/continue connecting \(yes\/no\)\?/ => sub { $exp->send("yes\n"); } ],
@@ -63,11 +63,11 @@ sub run_ftptest {
 		[ qr/sftp> $/ => sub { $exp->send("cd ftptests\n"); } ],
 	);
 	$exp->expect(undef,
-		[ qr/sftp> $/ => sub { $exp->send("put a.random\n"); } ],
+		[ qr/sftp> $/ => sub { $exp->send("put b.random\n"); } ],
 	);
 
 	$exp->expect(undef,
-		[ qr/sftp> $/ => sub { $exp->send("get a.random\n"); } ],
+		[ qr/sftp> $/ => sub { $exp->send("get b.random\n"); } ],
 	);
 
 	$exp->expect(undef,
@@ -83,7 +83,7 @@ sub parse_log{
 
 	my $ftp = shift;
 
-	my $filename = "output.log";
+	my $filename = "output.log2";
 	open(my $fh,'<',$filename) or die "couldn't open $filename $!";
 
 	my $count=0;
