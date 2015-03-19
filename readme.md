@@ -11,6 +11,18 @@ this is an expect script that calls the `save_output` bash script
 all expect does is to interactively provide the sftp password when prompted
 
 
+or
+
+```
+./go.pl
+```
+
+link this to your cgi-bin/ to run the script from a web browser
+
+
+
+
+
 ####save_output
 
 runs `script` to save the stdout of the sftp command into `output.log`
