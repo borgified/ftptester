@@ -41,8 +41,8 @@ generate random files to upload/download with
 to get a 50MB file
 
 ###todo
-[s]* extract data from `output.log` and graph using [google charts](https://google-developers.appspot.com/chart/)[/s]
-[s]* turn this into a cgi program[/s]
+~~* extract data from `output.log` and graph using [google charts](https://google-developers.appspot.com/chart/)~~
+~~* turn this into a cgi program~~
 
 ###additional reading
 * http://stackoverflow.com/questions/8849240/why-when-i-transfer-a-file-through-sftp-it-takes-longer-than-ftp
